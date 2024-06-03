@@ -60,16 +60,21 @@ public class Menu {
         }
     }
 
-    public void listEntities() {
+   public void listEntities(String packagePath) {
         System.out.println("----- Lista de Entidades -----");
-        List<String> entities = EntityGenerator.listEntities("com.maker.sql.project.entities");
+        List<String> entities = EntityGenerator.listEntities(packagePath);
+
         if (entities.isEmpty()) {
             System.out.println("Nenhuma entidade criada ainda.");
         } else {
             System.out.println("Entidades disponíveis:");
-            for (String entity : entities) {
-                System.out.println(entity);
-            }
+            printEntities(entities);
+        }
+    }
+
+    private void printEntities(List<String> entities) {
+        for (String entity : entities) {
+            System.out.println(entity);
         }
     }
 
