@@ -6,6 +6,7 @@ import java.util.Scanner;
 
 import com.maker.sql.project.exceptions.EntityCreationException;
 import com.maker.sql.project.helpers.ValidationUtils;
+import com.maker.sql.project.interfaces.EntityService;
 import com.sql.core.maker.SqlMaker;
 import com.sql.core.maker.SqlResponse;
 import com.sql.data.maker.SqlGenFactory;
@@ -14,9 +15,11 @@ public class Menu {
     private final Scanner scanner;
     private static final SqlGenFactory factory = new SqlGenFactory();
     private static final SqlMaker sqlMaker = factory.createSqlMakerExtended(null);
+    private final EntityService entityService;
 
-    public Menu(Scanner scanner) {
+    public Menu(Scanner scanner, EntityService entityService) {
         this.scanner = scanner;
+        this.entityService = entityService;
     }
 
     public void displayMainMenu() {
@@ -51,7 +54,7 @@ public class Menu {
                 }
                 atributos.add(atributo);
             }
-            EntityGenerator.generateEntity(nomeClasse, atributos.toArray(new String[0]));
+            entityService.createEntity(nomeClasse, atributos);
         } catch (EntityCreationException e) {
             System.out.println("Erro ao criar entidade: " + e.getMessage());
         } catch (Exception e) {
@@ -62,7 +65,7 @@ public class Menu {
 
     public void listEntities() {
         System.out.println("----- Lista de Entidades -----");
-        List<String> entities = EntityGenerator.listEntities("com.maker.sql.project.entities");
+        List<String> entities = entityService.listEntities();
 
         if (entities.isEmpty()) {
             System.out.println("Nenhuma entidade criada ainda.");

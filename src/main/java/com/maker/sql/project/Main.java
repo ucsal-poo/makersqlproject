@@ -2,10 +2,14 @@ package com.maker.sql.project;
 
 import java.util.Scanner;
 
+import com.maker.sql.project.interfaces.EntityService;
+import com.maker.sql.project.services.EntityServiceImpl;
+
 public class Main {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        Menu menu = new Menu(scanner);
+        EntityService entityService = new EntityServiceImpl();
+        Menu menu = new Menu(scanner, entityService);
 
         while (true) {
             menu.displayMainMenu();
