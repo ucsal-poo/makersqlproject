@@ -19,7 +19,7 @@
             <artifactId>maker</artifactId>
             <version>1.0</version>
             <scope>system</scope>
-        <systemPath>C:\Users\user\Desktop\maker.jar</systemPath>
+        <systemPath></systemPath>
         </dependency>
     </dependencies>
 
