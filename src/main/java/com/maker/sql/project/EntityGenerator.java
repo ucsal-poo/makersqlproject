@@ -58,13 +58,20 @@ public class EntityGenerator {
         entitiesDir.mkdirs();
 
         try {
-            FileWriter writer = new FileWriter(entitiesDir.getAbsolutePath() + File.separator + nomeClasse + ".java");
-            writer.write(classContent.toString());
+        FileWriter writer = new FileWriter(entitiesDir.getAbsolutePath() + File.separator + nomeClasse + ".java");
+    writer.write(classContent.toString());
+    System.out.println("Classe " + nomeClasse + " gerada com sucesso!");
+} catch (IOException e) {
+    System.err.println("Erro ao escrever o arquivo da classe " + nomeClasse + ": " + e.getMessage());
+} finally {
+    try {
+        if (writer != null) {
             writer.close();
-            System.out.println("Classe " + nomeClasse + " gerada com sucesso!");
-        } catch (IOException e) {
-            e.printStackTrace();
         }
+    } catch (IOException e) {
+        System.err.println("Erro ao fechar o FileWriter: " + e.getMessage());
+    }
+}
     }
 
     public static List<String> listEntities(String packageName) {
