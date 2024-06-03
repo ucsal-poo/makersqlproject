@@ -60,9 +60,9 @@ public class Menu {
         }
     }
 
-   public void listEntities(String packagePath) {
+    public void listEntities() {
         System.out.println("----- Lista de Entidades -----");
-        List<String> entities = EntityGenerator.listEntities(packagePath);
+        List<String> entities = EntityGenerator.listEntities("com.maker.sql.project.entities");
 
         if (entities.isEmpty()) {
             System.out.println("Nenhuma entidade criada ainda.");
