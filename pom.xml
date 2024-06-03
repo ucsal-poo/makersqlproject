@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.maker.sql.project</groupId>
+    <artifactId>makersqlproject</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.sql</groupId>
+            <artifactId>maker</artifactId>
+            <version>1.0</version>
+            <scope>system</scope>
+        <systemPath>C:\Users\user\Desktop\maker.jar</systemPath>
+        </dependency>
+    </dependencies>
+
+    <repositories>
+        <repository>
+            <id>github</id>
+            <name>My Maven Repo on GitHub</name>
+            <url>https://github.com/DanielTM999/makerSql/</url>
+        </repository>
+    </repositories>
+
+</project>
