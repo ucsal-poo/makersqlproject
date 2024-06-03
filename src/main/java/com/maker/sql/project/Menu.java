@@ -3,6 +3,9 @@ package com.maker.sql.project;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+
+import com.maker.sql.project.exceptions.EntityCreationException;
+import com.maker.sql.project.helpers.ValidationUtils;
 import com.sql.core.maker.SqlMaker;
 import com.sql.core.maker.SqlResponse;
 import com.sql.data.maker.SqlGenFactory;
@@ -31,21 +34,30 @@ public class Menu {
 
     public void createEntity() {
         System.out.println("----- Criar Nova Entidade -----");
-        System.out.print("Digite o nome da classe da entidade: ");
-        String nomeClasse = scanner.nextLine();
+        try {
+            System.out.print("Digite o nome da classe da entidade: ");
+            String nomeClasse = scanner.nextLine();
 
-        List<String> atributos = new ArrayList<>();
-        String atributo;
-        while (true) {
-            System.out.print("Digite o nome do próximo atributo ou 'fim' para terminar: ");
-            atributo = scanner.nextLine();
-            if (atributo.equals("fim")) {
-                break;
+            if (!ValidationUtils.isEntityNameValid(nomeClasse)) {
+                throw new EntityCreationException("Nome da classe da entidade inválido.");
             }
-            atributos.add(atributo);
+            List<String> atributos = new ArrayList<>();
+            String atributo;
+            while (true) {
+                System.out.print("Digite o nome do próximo atributo ou 'fim' para terminar: ");
+                atributo = scanner.nextLine();
+                if (atributo.equals("fim")) {
+                    break;
+                }
+                atributos.add(atributo);
+            }
+            EntityGenerator.generateEntity(nomeClasse, atributos.toArray(new String[0]));
+        } catch (EntityCreationException e) {
+            System.out.println("Erro ao criar entidade: " + e.getMessage());
+        } catch (Exception e) {
+            System.out.println("Erro inesperado: " + e.getMessage());
+            e.printStackTrace();
         }
-
-        EntityGenerator.generateEntity(nomeClasse, atributos.toArray(new String[0]));
     }
 
     public void listEntities() {
