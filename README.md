@@ -4,6 +4,8 @@
 
 Este projeto é uma aplicação Java que atravês do uso do componente MakerSql, facilita a criação e manipulação de entidades e a geração de consultas SQL. Ele permite criar novas entidades, listar entidades existentes e gerar consultas SQL (SELECT, INSERT, UPDATE, DELETE) para essas entidades.
 
+*Nota: As entidades criadas serão geradas como arquivos de classe Java e armazenadas no diretório predefinido **src/main/java/com/maker/sql/project/entities**. Se a pasta entities não existir, ela será criada automaticamente*
+
 ## Funcionalidades
 
 - Criar nova entidade
@@ -44,10 +46,13 @@ O projeto está organizado em pacotes conforme descrito abaixo:
 
 - A classe principal `Main` que inicia a aplicação e gerencia o menu principal.
 - A classe Menu que é responsavel pelos metodos que usaram as funcionalidades do componente MakerSql para criação de entidades e geração de consultas.
+- 
 - A classe EntityGenerator que é responsavel por criar e listar as entidades.
 - `com.maker.sql.project.entities`: Pacote onde as classes das entidades geradas serão armazenadas.
 - `com.maker.sql.project.exceptions`: Contém exceções personalizadas utilizadas no projeto.
 - `com.maker.sql.project.helpers`: Contém classes auxiliares, como utilitários de validação.
+- `com.maker.sql.project.interfaces`: Contém as interfacee que definem os métodos para manipulação de entidades.
+- `com.maker.sql.project.services`: Contém a implementação das interfaces que fornecem a lógica concreta para manipulação de entidades.
 
 ## Classes Principais
 
@@ -93,6 +98,51 @@ A classe `EntityGenerator` é responsável por gerar dinamicamente classes de en
        }
     }
 
+
+### EntityService
+
+A interface EntityService define os métodos para criar entidades e listar entidades existentes.
+
+    package com.maker.sql.project.interfaces;
+    
+    import java.util.List;
+    
+    import com.maker.sql.project.exceptions.EntityCreationException;
+    
+    public interface EntityService {
+        void createEntity(String nomeClasse, List<String> atributos) throws EntityCreationException;
+    
+        List<String> listEntities();
+    }
+
+### EntityServiceImpl
+A classe EntityServiceImpl implementa a interface EntityService e fornece a lógica concreta para criar e listar entidades.
+
+
+    package com.maker.sql.project.services;
+
+    import java.util.List;
+    
+    import com.maker.sql.project.EntityGenerator;
+    import com.maker.sql.project.exceptions.EntityCreationException;
+    import com.maker.sql.project.helpers.ValidationUtils;
+    import com.maker.sql.project.interfaces.EntityService;
+    
+    public class EntityServiceImpl implements EntityService {
+        @Override
+        public void createEntity(String entityName, List<String> atributos) throws EntityCreationException {
+            if (!ValidationUtils.isEntityNameValid(entityName)) {
+                throw new EntityCreationException("Nome da classe da entidade inválido.");
+            }
+            EntityGenerator.generateEntity(entityName, atributos.toArray(new String[0]));
+        }
+    
+        @Override
+        public List<String> listEntities() {
+            return EntityGenerator.listEntities("com.maker.sql.project.entities");
+        }
+    }
+    
 ## Classes Secundarias
 
 ### Helpers
