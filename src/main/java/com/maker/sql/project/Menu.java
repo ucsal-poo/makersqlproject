@@ -22,6 +22,43 @@ public class Menu {
         this.entityService = entityService;
     }
 
+    public void run() {
+        while (true) {
+            displayMainMenu();
+            int option = scanner.nextInt();
+            scanner.nextLine();
+
+            switch (option) {
+                case 1:
+                    createEntity();
+                    break;
+                case 2:
+                    listEntities();
+                    break;
+                case 3:
+                    generateSelectAllSql();
+                    break;
+                case 4:
+                    generateSelectSql();
+                    break;
+                case 5:
+                    generateInsertSql();
+                    break;
+                case 6:
+                    generateDeleteSql();
+                    break;
+                case 7:
+                    generateUpdateSql();
+                    break;
+                case 0:
+                    System.out.println("Encerrando o programa...");
+                    return;
+                default:
+                    System.out.println("Opção inválida. Tente novamente.");
+            }
+        }
+    }
+
     public void displayMainMenu() {
         System.out.println("----- Menu Principal -----");
         System.out.println("1. Criar Entidade");
