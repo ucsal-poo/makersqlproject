@@ -78,20 +78,30 @@ public class Menu {
         try {
             System.out.print("Digite o nome da classe da entidade: ");
             String nomeClasse = scanner.nextLine();
-
+    
             if (!ValidationUtils.isEntityNameValid(nomeClasse)) {
                 throw new EntityCreationException("Nome da classe da entidade inválido.");
             }
+            
             List<String> atributos = new ArrayList<>();
             String atributo;
+            
             while (true) {
+                if (atributos.size() >= 11) {
+                    System.out.println("Limite máximo de 11 atributos atingido.");
+                    break;
+                }
+                
                 System.out.print("Digite o nome do próximo atributo ou 'fim' para terminar: ");
                 atributo = scanner.nextLine();
+                
                 if (atributo.equals("fim")) {
                     break;
                 }
+                
                 atributos.add(atributo);
             }
+            
             entityService.createEntity(nomeClasse, atributos);
         } catch (EntityCreationException e) {
             System.out.println("Erro ao criar entidade: " + e.getMessage());
@@ -100,6 +110,7 @@ public class Menu {
             e.printStackTrace();
         }
     }
+    
 
     public void listEntities() {
         System.out.println("----- Lista de Entidades -----");
