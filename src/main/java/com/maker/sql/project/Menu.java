@@ -16,6 +16,7 @@ public class Menu {
     private static final SqlGenFactory factory = new SqlGenFactory();
     private static final SqlMaker sqlMaker = factory.createSqlMakerExtended(null);
     private final EntityService entityService;
+    private final List<String> queryList = new ArrayList<>(); 
 
     public Menu(Scanner scanner, EntityService entityService) {
         this.scanner = scanner;
@@ -126,6 +127,7 @@ public class Menu {
             Class<?> entityClass = Class.forName("com.maker.sql.project.entities." + entityName);
             SqlResponse response = sqlMaker.generateSelectAllSql(entityClass);
             String sqlQuery = replaceEntityName(response.getSqlQuery(), entityName);
+            queryList.add(sqlQuery); 
             System.out.println("Consulta gerada: " + sqlQuery);
         } catch (ClassNotFoundException e) {
             System.out.println("Classe " + entityName + " não encontrada.");
@@ -148,6 +150,7 @@ public class Menu {
             SqlResponse response = sqlMaker.generateSelectSql(entityClass,
                     operator, attributes);
             String sqlQuery = replaceEntityName(response.getSqlQuery(), entityName);
+            queryList.add(sqlQuery); 
             System.out.println("Consulta gerada: " + sqlQuery);
             return;
         } catch (ClassNotFoundException e) {
@@ -164,6 +167,7 @@ public class Menu {
             Class<?> entityClass = Class.forName("com.maker.sql.project.entities." + entityName);
             SqlResponse response = sqlMaker.generateInsertSql(entityClass);
             String sqlQuery = replaceEntityName(response.getSqlQuery(), entityName);
+            queryList.add(sqlQuery); 
             System.out.println("Consulta gerada: " + sqlQuery);
             return;
         } catch (ClassNotFoundException e) {
@@ -180,6 +184,7 @@ public class Menu {
             Class<?> entityClass = Class.forName("com.maker.sql.project.entities." + entityName);
             SqlResponse response = sqlMaker.generateDeleteSql(entityClass);
             String sqlQuery = replaceEntityName(response.getSqlQuery(), entityName);
+            queryList.add(sqlQuery); 
             System.out.println("Consulta gerada: " + sqlQuery);
             return;
         } catch (ClassNotFoundException e) {
@@ -196,14 +201,25 @@ public class Menu {
             Class<?> entityClass = Class.forName("com.maker.sql.project.entities." + entityName);
             SqlResponse response = sqlMaker.generateUpdateSql(entityClass);
             String sqlQuery = replaceEntityName(response.getSqlQuery(), entityName);
+            queryList.add(sqlQuery); 
             System.out.println("Consulta de atualização gerada: " + sqlQuery);
         } catch (ClassNotFoundException e) {
             System.out.println("Entidade não encontrada.");
         }
     }
 
+    public void displayAllQueries() {
+        System.out.println("----- Todas as Queries Geradas -----");
+        if (queryList.isEmpty()) {
+            System.out.println("Nenhuma query foi gerada ainda.");
+        } else {
+            for (String query : queryList) {
+                System.out.println(query);
+            }
+        }
+    }
+
     private String replaceEntityName(String sqlQuery, String entityName) {
         return sqlQuery.replace("GeneralEntity", entityName);
     }
-
 }
